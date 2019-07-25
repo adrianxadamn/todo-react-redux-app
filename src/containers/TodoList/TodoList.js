@@ -2,18 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import TodoItem from '../../components/TodoItem/TodoItem';
+import AddTodoItem from '../../components/AddTodoItem/AddTodoItem';
+import * as actionTypes from '../../store/actions';
 
 class TodoList extends Component {
 	render() {
 		return (
 			<div>
 				<ul>
-					<TodoItem />
+					{this.props.todoItems.map(todoItem => (
+						<TodoItem key={todoItem.id} description={todoItem.description} />
+					))}
 				</ul>
-				<form>
-					<input type="text" />
-					<button type="submit" onClick={this.props.addToDo} >Add ToDo</button>
-				</form>
+				<AddTodoItem todoItemAdded={this.props.addToDo} />
 			</div>
 		)
 	}
@@ -27,14 +28,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		addToDo: () => dispatch({ 
-			type: 'ADD_TODO'
+		addToDo: (description) => dispatch({ 
+			type: actionTypes.ADD_TODO,
+			description: description
 		}),
-		removeToDo: () => dispatch({
-			type: 'REMOVE_TODO'
+		removeToDo: (id) => dispatch({
+			type: actionTypes.REMOVE_TODO,
+			id: id
 		}),
-		saveToDo: () => dispatch({
-			type: 'SAVE_TODO'
+		saveToDo: (id) => dispatch({
+			type: actionTypes.SAVE_TODO,
+			id: id
 		})
 	}
 };
