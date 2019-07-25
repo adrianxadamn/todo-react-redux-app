@@ -5,22 +5,18 @@ class AddTodoItem extends Component {
 		description: ''
 	}
 
-	inputChangedHandler = (event) => {
-		this.setState({
-			description: event.target.value
-		});
-	}
-
-	buttonClickHandler = () => {
-		this.props.todoItemAdded(this.state.description)
+	submitFormHandler = (event) => {
+		event.preventDefault();
+		this.props.todoItemAdded(this._inputElement.value)
+		this._inputElement.value = '';
 	}
 
 	render() {
 		return (
-			<div className="AddTodoItem">
-				<input type="text" placeholder="Add Todo here..." onChange={this.inputChangedHandler} />
-				<button onClick={() => this.props.todoItemAdded(this.state.description)}>Add Todo</button>
-			</div>
+			<form className="AddTodoItem" onSubmit={this.submitFormHandler}>
+				<input type="text" placeholder="Add Todo here..." ref={(a) => this._inputElement = a}  />
+				<button>Add Todo</button>
+			</form>
 		)
 	}
 }
